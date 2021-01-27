@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">audit</database>
+</source>
+<canvas zoom="80">
+<tables>
+<table name="pertanyaan" view="colnames">
+<left>356</left>
+<top>23</top>
+<width>89</width>
+<height>198</height>
+<sql_create_table>CREATE TABLE `pertanyaan` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `pertanyaan` longtext,
+  `kategori` varchar(20) DEFAULT NULL,
+  `catatan` longtext,
+  `status` varchar(20) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `lokasi` varchar(120) DEFAULT NULL,
+  `penulis` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="lks" view="colnames">
+<left>470</left>
+<top>243</top>
+<width>108</width>
+<height>277</height>
+<sql_create_table>CREATE TABLE `lks` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `nolks` int(10) DEFAULT NULL,
+  `id_pertanyaan` int(20) DEFAULT NULL,
+  `acuan` longtext,
+  `deskripsi` longtext,
+  `iec_2012` varchar(220) DEFAULT NULL,
+  `iec_2015` varchar(220) DEFAULT NULL,
+  `iec_2017` varchar(220) DEFAULT NULL,
+  `smm` varchar(400) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  `lokasi` varchar(120) DEFAULT NULL,
+  `nama_penulis` varchar(120) DEFAULT NULL,
+  `nama_pengirim` varchar(120) DEFAULT NULL,
+  `tgl_terkirim` datetime DEFAULT NULL,
+  `id_user` int(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_lks` (`id_pertanyaan`),
+  CONSTRAINT `FK_lks` FOREIGN KEY (`id_pertanyaan`) REFERENCES `pertanyaan` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="auditee" view="colnames">
+<left>11</left>
+<top>137</top>
+<width>102</width>
+<height>144</height>
+<sql_create_table>CREATE TABLE `auditee` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id_pegawai` int(10) DEFAULT NULL,
+  `nama` varchar(60) DEFAULT NULL,
+  `lokasi_auditee` varchar(60) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_pegawai` (`id_pegawai`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="auditor" view="colnames">
+<left>8</left>
+<top>298</top>
+<width>91</width>
+<height>144</height>
+<sql_create_table>CREATE TABLE `auditor` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(50) DEFAULT NULL,
+  `id_pegawai` int(10) DEFAULT NULL,
+  `lokasi_audit` varchar(60) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_pegawai` (`id_pegawai`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="users" view="colnames">
+<left>154</left>
+<top>108</top>
+<width>116</width>
+<height>249</height>
+<sql_create_table>CREATE TABLE `users` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `username` char(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `akses` char(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_auditee` int(10) DEFAULT NULL,
+  `id_auditor` int(10) DEFAULT NULL,
+  `pass` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lokasi` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_users3` (`id_auditor`),
+  KEY `FK_users4` (`id_auditee`),
+  CONSTRAINT `FK_users3` FOREIGN KEY (`id_auditor`) REFERENCES `auditor` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_users4` FOREIGN KEY (`id_auditee`) REFERENCES `auditee` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="klausul" view="colnames">
+<left>616</left>
+<top>22</top>
+<width>79</width>
+<height>103</height>
+<sql_create_table>CREATE TABLE `klausul` (
+  `klausul` varchar(300) DEFAULT NULL,
+  `dokumen` varchar(300) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=477 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="tindakan" view="colnames">
+<left>636</left>
+<top>180</top>
+<width>122</width>
+<height>332</height>
+<sql_create_table>CREATE TABLE `tindakan` (
+  `id_tindakan` int(10) NOT NULL AUTO_INCREMENT,
+  `id_lks` int(10) DEFAULT NULL,
+  `akar` longtext,
+  `dilakukan` longtext,
+  `pencegahan` longtext,
+  `bukti` varchar(30) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `title` varchar(250) DEFAULT NULL,
+  `keterangan_file` varchar(300) DEFAULT NULL,
+  `path` varchar(250) DEFAULT NULL,
+  `status_tindakan` varchar(50) DEFAULT NULL,
+  `lokasi` varchar(120) DEFAULT NULL,
+  `created_at_lks` datetime DEFAULT NULL,
+  `pengirim_tindakan` varchar(120) DEFAULT NULL,
+  `catatan_verifikasi` longtext,
+  `waktu_kirim` datetime DEFAULT NULL,
+  `nama_verifikator` varchar(120) DEFAULT NULL,
+  `nolks` int(20) DEFAULT NULL,
+  PRIMARY KEY (`id_tindakan`),
+  KEY `FK_tindakan` (`id_lks`),
+  CONSTRAINT `FK_tindakan` FOREIGN KEY (`id_lks`) REFERENCES `lks` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="pengumuman" view="colnames">
+<left>495</left>
+<top>21</top>
+<width>99</width>
+<height>144</height>
+<sql_create_table>CREATE TABLE `pengumuman` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `pengumuman` longtext,
+  `penulis` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="pegawai" view="colnames">
+<left>171</left>
+<top>384</top>
+<width>100</width>
+<height>171</height>
+<sql_create_table>CREATE TABLE `pegawai` (
+  `nama` varchar(40) DEFAULT NULL,
+  `nip` varchar(20) NOT NULL,
+  `jenis_kelamin` varchar(16) DEFAULT NULL,
+  `jabatan` varchar(60) DEFAULT NULL,
+  `sie` varchar(60) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="catatan" view="colnames">
+<left>799</left>
+<top>293</top>
+<width>115</width>
+<height>130</height>
+<sql_create_table>CREATE TABLE `catatan` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `id_tindakan` int(10) DEFAULT NULL,
+  `catatan_tindakan` longtext,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `status` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_catatan` (`id_tindakan`),
+  CONSTRAINT `FK_catatan` FOREIGN KEY (`id_tindakan`) REFERENCES `tindakan` (`id_tindakan`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="migrations" view="colnames">
+<left>10</left>
+<top>28</top>
+<width>80</width>
+<height>99</height>
+<sql_create_table>CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="arsip_tindakan" view="colnames">
+<left>526</left>
+<top>705</top>
+<width>122</width>
+<height>263</height>
+<sql_create_table>CREATE TABLE `arsip_tindakan` (
+  `id` int(10) NOT NULL,
+  `id_lks` int(10) DEFAULT NULL,
+  `akar` longtext,
+  `dilakukan` longtext,
+  `pencegahan` longtext,
+  `title` varchar(350) DEFAULT NULL,
+  `keterangan_file` varchar(350) DEFAULT NULL,
+  `path` varchar(350) DEFAULT NULL,
+  `status_tindakan` varchar(50) DEFAULT NULL,
+  `lokasi` varchar(120) DEFAULT NULL,
+  `pengirim_tindakan` varchar(200) DEFAULT NULL,
+  `catatan_verifikasi` longtext,
+  `nama_verifikator` varchar(120) DEFAULT NULL,
+  `tahun_audit` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_lks` (`id_lks`),
+  CONSTRAINT `arsip_tindakan_ibfk_1` FOREIGN KEY (`id_lks`) REFERENCES `arsip_lks` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="arsip_pertanyaan" view="colnames">
+<left>167</left>
+<top>707</top>
+<width>121</width>
+<height>185</height>
+<sql_create_table>CREATE TABLE `arsip_pertanyaan` (
+  `id` int(10) NOT NULL,
+  `pertanyaan` longtext,
+  `catatan` longtext,
+  `kategori` varchar(20) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `lokasi` varchar(120) DEFAULT NULL,
+  `penulis` varchar(120) DEFAULT NULL,
+  `tahun_audit` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="arsip_lks" view="colnames">
+<left>357</left>
+<top>706</top>
+<width>108</width>
+<height>249</height>
+<sql_create_table>CREATE TABLE `arsip_lks` (
+  `id` int(10) NOT NULL,
+  `nolks` int(10) DEFAULT NULL,
+  `id_pertanyaan` int(10) DEFAULT NULL,
+  `acuan` longtext,
+  `deskripsi` longtext,
+  `iec_2012` varchar(220) DEFAULT NULL,
+  `iec_2015` varchar(220) DEFAULT NULL,
+  `iec_2017` varchar(220) DEFAULT NULL,
+  `smm` varchar(220) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `lokasi` varchar(120) DEFAULT NULL,
+  `nama_pengirim` varchar(120) DEFAULT NULL,
+  `tahun_audit` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_pertanyaan` (`id_pertanyaan`),
+  CONSTRAINT `arsip_lks_ibfk_1` FOREIGN KEY (`id_pertanyaan`) REFERENCES `arsip_pertanyaan` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="periode" view="colnames">
+<left>783</left>
+<top>25</top>
+<width>129</width>
+<height>149</height>
+<sql_create_table>CREATE TABLE `periode` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `tahun_audit` varchar(30) DEFAULT NULL,
+  `status_audit` varchar(40) DEFAULT NULL,
+  `status_data` varchar(40) DEFAULT NULL,
+  `status_pelaksana` varchar(40) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>

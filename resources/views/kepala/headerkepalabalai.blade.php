@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+@include('layout.head-css')
+
+<title>BISBY - Audit Internal</title>
+
+<style>
+ #navbar { 
+    background-color: #2E86C1; 
+    transition: top 0.4s;
+     box-shadow: 0px 1px 10px #999;
+  }
+
+  .container {
+    font-size: 12px;
+  }
+
+  .navbar-nav{
+    margin-left: 22px;
+  }
+
+/*  .nav-item{
+    transition: 0.15s;
+  }*/
+
+  .thumbnail{
+    max-width: 100px;
+  }
+
+  #link{
+     margin-left: 22px;  color: white; 
+     text-decoration: none;
+  }
+
+  #links{
+    margin-bottom: 0px; margin-top: 0px;  color: white; font-size: 12px;
+  }
+
+  #links:hover {
+    background-color: #3993d0;
+  }
+
+  a{
+    transition: 0.15s;
+    
+  }
+
+  a:hover{
+    font-weight: bold;
+  }
+
+  #dropdownn {
+    background-color:#2E86C1; margin-top: 22px; outline-color: transparent; box-shadow:0 4px 6px #C4C4C4;  transition: 0.5s;
+  }
+
+  .nav-item .nav-link .dropdown-menu{
+    transition: 0.5s;
+  }
+
+  #role{
+    margin-right: 22px;
+    font-weight: bold;
+  }
+
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light  fixed-top" id="navbar" >
+        <div class="container" >
+           <a class="navbar-brand logo_h" href="#"><img  class="thumbnail"   src=" {{ asset('audit/img/bisby.png')}}" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div  class="navbar-nav">
+              <a data-toggle="tooltip" data-placement="top" title="Lihat Data Pelaksana Audit" class="nav-item nav-link" id="link" href="{{url ('kepala')}}">BERANDA</a>
+              <a  data-toggle="tooltip" data-placement="top" title="Pilih Pegawai Sebagai Auditor"class="nav-item nav-link" id="link" href="{{url ('kepala/auditor')}}">PILIH AUDITOR</a>
+              <a data-toggle="tooltip" data-placement="top" title="Pilih Pegawai Sebagai Auditee" class="nav-item nav-link " id="link" href="{{url ('kepala/auditee')}}">PILIH AUDITEE</a>
+
+              {{--  <a data-toggle="tooltip" data-placement="top" title="Lihat Tindakan Perbaikan" class="nav-item nav-link" id="link" href="#">ARSIP</a> --}}
+            </div>
+
+                      
+
+
+
+        </div>
+
+            @if (Auth::guest())
+                <ul>
+                    <a href=""></a>
+                </ul>
+            @else           
+               <a  style=" color: white;  font-size: 1em;  text-align: center; line-height: 0.4em; background: #fff; color: #3993d0; border-radius: 1em;  "class="nav-item nav-link " id="role" href="#">Kepala Balai</a>
+             
+
+                
+               <div class="dropdown nav-item nav-link" style=""> <span class=" fa fa-user "  style="  color: white; "> </span> <a id="link"  class="" data-toggle="dropdown" href="#">{{Auth::user()->username}} &nbsp; <span  class="fa fa-caret-down"></span></a>
+                <ul class="dropdown-menu" id="dropdownn" style=" ">
+                  <li><a href="{{ url('/logout') }}"
+                                        onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();" id="links" class="nav-item nav-link"><span class="fa fa-sign-out" ></span> Logout </a>
+                  <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                  </form> 
+                  </li>
+
+                  <li></li>
+                 
+                </ul>
+              </div>
+            @endif
+                             
+        </div>
+    </nav>
+
+
+<br><br><br>
+  
+
+</body>
+</html>
+
+
+<script>
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+var currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.getElementById("navbar").style.top = "0";
+  } else {
+    document.getElementById("navbar").style.top = "-210px";
+  }
+  prevScrollpos = currentScrollPos;
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- <!DOCTYPE html>
+<html>
+<head>
+ @include('layout.head-css')
+
+    <title>BISBY - Audit Internal</title>
+
+    <style>
+</style>
+</head>
+<body>
+
+<!-- <div class="container"  >  -->
+     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary " style=" box-shadow:0 4px 6px #C4C4C4;">
+                <div class="container" style="font-size: 14px " >
+                   <a class="navbar-brand logo_h" href="#"><img  class="thumbnail"  style=" max-width: 100px;  "  src=" {{ asset('audit/img/bisby.png')}}" alt=""></a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNavAltMarkup" >
+                    <div   style="margin-left:  20px; "  class="navbar-nav">
+                        <li>    
+                          <a   style="  margin-left: 22px;  color: white; "    data-toggle="tooltip" data-placement="top" title="Lihat Data Pelaksana Audit" class="nav-item nav-link " href="{{url ('kepala')}}">BERANDA</a>
+                        </li>
+                        <li>    
+                          <a   style="  margin-left: 22px; color: white; "   data-toggle="tooltip" data-placement="top" title="Pilih Auditor"  class="nav-item nav-link " href="{{url ('kepala/auditor')}}">PILIH AUDITOR</a>
+                        </li>
+                        <li>    
+                          <a   style="  margin-left: 22px;  color: white; "    data-toggle="tooltip" data-placement="top" title="Pilih Auditee" class="nav-item nav-link " href="{{url ('kepala/auditee')}}">PILIH AUDITEE</a>
+                        </li>
+                   
+                    </div>
+              </div>
+
+               @if (Auth::guest())
+                                 <ul>
+                                      <a href=""></a>
+                                  </ul>
+                          @else
+
+                          
+                           <a  style="padding: 0px 20px 0px 20px;   color: white;  "class="nav-item nav-link " href="#">{{Auth::user()->username}} - Kepala Balai</a>
+                           <a class=" fa fa-user "  style="  color: white; "></a>
+
+
+                           <a    style="padding: 0px 20px 0px 20px;   color: white;  "  data-toggle="tooltip" data-placement="top" title="Logout" class="nav-item nav-link" href="{{ url('/logout') }}"
+                                                    onclick="event.preventDefault();
+                                                   document.getElementById('logout-form').submit();">
+                                                      LOGOUT
+                          </a>
+                           <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+
+                           
+                          @endif
+                             
+                
+             </div>
+    </nav>
+    <br><br><br><br><br>
+
+
+ 
+</body>
+</html>
+ --}}
